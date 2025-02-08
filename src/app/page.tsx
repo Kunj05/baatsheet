@@ -1,10 +1,12 @@
+"use client"
 import { FileText, Brain, MessageSquare, Lock } from 'lucide-react';
-import { SignUpButton, useUser } from '@clerk/clerk-react';
+import { SignUpButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import Image from 'next/image'
+import { useSession  } from '@clerk/nextjs'
 
 const Home = () => {
-  const { isSignedIn } = useUser();
+  const user = useSession()
 
   const features = [
     {
@@ -41,7 +43,7 @@ const Home = () => {
           Upload your PDF documents and interact with them using advanced AI.
           Get instant answers, summaries, and insights from your documents.
         </p>
-        {!isSignedIn ? (
+        {!user.isSignedIn ? (
           <SignUpButton mode="modal">
             <button className="px-8 py-4 bg-green-500 text-black rounded-lg hover:bg-green-400 transition-all transform hover:scale-105">
               Get Started Free
@@ -78,9 +80,11 @@ const Home = () => {
         <h2 className="text-3xl font-bold">See it in Action</h2>
         <div className="aspect-video max-w-4xl mx-auto rounded-xl overflow-hidden border border-green-500/20">
           <Image
-            src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?auto=format&fit=crop&w=1200&q=80"
+            src="/image.png"
             alt="PDF AI Assistant Demo"
             className="w-full h-full object-cover"
+            width={250}
+            height={200}
           />
         </div>
       </section>

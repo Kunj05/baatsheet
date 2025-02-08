@@ -1,9 +1,10 @@
+"use client"
 import Link from 'next/link';
 import { FileText } from 'lucide-react';
-import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/clerk-react';
+import { SignInButton, SignUpButton, UserButton, useSession } from '@clerk/nextjs';
 
 const Header = () => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn } = useSession();
 
   return (
     <header className="bg-gray-900 border-b border-green-500/20">
