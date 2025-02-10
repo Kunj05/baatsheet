@@ -82,7 +82,7 @@ const Home = () => {
           <Image
             src="/image.png"
             alt="PDF AI Assistant Demo"
-            className="w-full h-full object-cover"
+            className="w-full h-full "
             width={250}
             height={200}
           />
