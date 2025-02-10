@@ -3,7 +3,6 @@ import { useSession } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PdfUpload from '@/components/PdfUpload';
-import { Upload } from 'lucide-react';
 
 const Dashboard = () => {
   const { session } = useSession();
@@ -19,7 +18,7 @@ const Dashboard = () => {
   }, [session, router]);
 
   const fetchPdfs = async () => {
-    const res = await fetch('/api/pdfs'); // Backend API to fetch PDFs
+    const res = await fetch('/api/pdfs'); 
     const data = await res.json();
     setPdfs(data);
   };
