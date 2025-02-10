@@ -1,28 +1,37 @@
-import PdfView from "@/components/pdfView";
-import { auth } from "@clerk/nextjs/server";
-import ChatComp from "@/components/ChatComp";
+'use client';
+import { useRouter, useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import PdfView from '@/components/PdfView';
+import ChatComp from '@/components/ChatComp';
 
-const page = async ({ params: { id } }: { params: { id: string } }) => {
-  const { userId } = await auth();
+const ChatPage = () => {
+  const { id } = useParams();
+  const [pdf, setPdf] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
 
-  if (!userId) {
-    throw new Error("User not found");
-  }
+  useEffect(() => {
+    fetch(`/api/pdf/${id}`)
+      .then((res) => res.json())
+      .then((data) => setPdf(data));
 
-  const docRef = await adminDB
-    .collection("users")
-    .doc(userId)
-    .collection("files")
-    .doc(id)
-    .get();
-
-  const downloadURL = await docRef.data()?.url;
+    fetch(`/api/chat/${id}`)
+      .then((res) => res.json())
+      .then((data) => setChatHistory(data.messages));
+  }, [id]);
 
   return (
-    <>
-      <p>kunj</p>
-    </>
+    <div className="flex h-screen">
+      {/* Left: PDF Viewer */}
+      <div className="w-1/2 border-r p-4">
+        {pdf && <PdfView pdfUrl={pdf.fileUrl} />}
+      </div>
+
+      {/* Right: Chat Component */}
+      <div className="w-1/2 p-4">
+        <ChatComp chatHistory={chatHistory} pdfId={id} />
+      </div>
+    </div>
   );
 };
 
-export default page;
+export default ChatPage;
